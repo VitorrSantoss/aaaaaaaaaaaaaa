@@ -2,6 +2,7 @@ import './login.css';
 import logo from '../../arquivos/imagens/sgp_logo_vertical.png';
 import { useContext, useState } from 'react';
 import { GlobalContext } from '../../contextos/GlobalContext';
+import { useNavigate } from 'react-router-dom'; // ⬅ Importa o hook de navegação
 
 function Login() {
     const { login } = useContext(GlobalContext);
@@ -10,14 +11,21 @@ function Login() {
     const [manterConectado, setManterConectado] = useState(true);
     const [erro, setErro] = useState('');
 
+    const navigate = useNavigate(); // ⬅ Cria a função de navegação
+
     const fazerLogin = (e) => {
         e.preventDefault();
 
         if (email === '' || senha === '') {
-            setErro("Preencha todos os campos!")
+            setErro("Preencha todos os campos!");
+            return;
         }
 
+        // Chama seu método de login
         login({ email, senha, manterConectado });
+
+        // Redireciona para a página desejada (ex: dashboard)
+        navigate('/dashboard');
     }
 
     return (
@@ -59,7 +67,7 @@ function Login() {
                                         onChange={() => setManterConectado(!manterConectado)}
                                     />
                                     <label className='form-check-label text-dark'>
-                                        Matenha-me conectado
+                                        Mantenha-me conectado
                                     </label>
                                 </div>
 
